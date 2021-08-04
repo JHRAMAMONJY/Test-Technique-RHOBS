@@ -35,9 +35,6 @@ print_listeners_by_music()
 
 today = [int(x) for x in str(datetime.date.today()).split("-")] # Date d'aujourd'hui
 
-# aout5 = [1999, 8, 5]
-# aout4 = [1999, 8, 4]
-# aout3 = [1999, 8, 3]
 
 def read(date_string):
     """ Prend une date au format AAAA-MM-JJ sous forme de chaîne de caractères
@@ -58,7 +55,7 @@ music_sum_age = {} # Calcule d'abord la somme des âges des personnes par style 
 
 for data in collection.find():
     for key in data.keys():
-        if key != "_id":
+        if key != "_id": # récupère le nom de la personne
             for music in (data[key]['music']):
                 if music in music_sum_age:
                     music_sum_age[music] += get_age(read(data[key]["birthdate"])) # on incrémente la somme par l'âge de la personne de cette musique 
@@ -93,7 +90,7 @@ def pyramide(city, size):
     res = {}
     for data in collection.find():
         for key in data.keys():
-            if key != "_id":
+            if key != "_id": # récupère le nom de la personne
                 if data[key]['city'] == city:
                     age = get_age(read(exemple[key]["birthdate"]))
                     t = tranche(a, size)
