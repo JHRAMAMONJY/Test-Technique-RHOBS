@@ -15,7 +15,7 @@ listeners_by_music = {}
 for data in collection.find():
     for key in data.keys():
         if key != "_id": # on récupère le nom de la personne avec la clef qui n'est pas son id
-            for music in (data[key]['music']): # on parcourt les musiques écoutées par la personne
+            for music in data[key]['music']: # on parcourt les musiques écoutées par la personne
                 if music in listeners_by_music:
                     listeners_by_music[music] += 1 # on incrémente de 1 le nombre d'auditeurs de cette musique
                 else:
@@ -56,7 +56,7 @@ music_sum_age = {} # Calcule d'abord la somme des âges des personnes par style 
 for data in collection.find():
     for key in data.keys():
         if key != "_id": # récupère le nom de la personne
-            for music in (data[key]['music']):
+            for music in data[key]['music']:
                 if music in music_sum_age:
                     music_sum_age[music] += get_age(read(data[key]["birthdate"])) # on incrémente la somme par l'âge de la personne de cette musique
                 else:
@@ -80,7 +80,7 @@ print_average_age_by_music()
 def tranche(age, size):
     """ Prend en entrée un entier âge, et un entier size
     et renvoie la tranche d'âge de taille size associé """
-    return "[" + str(age // taille * taille) + "," + str(age//taille * taille + taille) + "["
+    return "[" + str(age // size * size) + "," + str(age//size * size + size) + "["
 
 
 def pyramide(city, size):
@@ -92,16 +92,24 @@ def pyramide(city, size):
         for key in data.keys():
             if key != "_id": # récupère le nom de la personne
                 if data[key]['city'] == city:
-                    age = get_age(read(exemple[key]["birthdate"]))
-                    t = tranche(a, size)
-                    if t in res:
-                        res[t] += 1
+                    age = get_age(read(data[key]["birthdate"]))
+                    intervalle = tranche(age, size)
+                    if intervalle in res:
+                        res[intervalle] += 1
                     else:
-                        res[t] = 1
+                        res[intervalle] = 1
     return res
 
+def test_pyramide():
+    print("test de la fonction pyramide")
+    print("###")
+    print('pyramide("Gay", 4)')
+    print(pyramide("Gay", 4))
+    print("###")
+    print('pyramide("Fabre", 3)')
+    print(pyramide("Fabre", 3))
 
-
+test_pyramide()
 
 
 
