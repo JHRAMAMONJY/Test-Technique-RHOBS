@@ -58,13 +58,13 @@ for data in collection.find():
         if key != "_id": # récupère le nom de la personne
             for music in (data[key]['music']):
                 if music in music_sum_age:
-                    music_sum_age[music] += get_age(read(data[key]["birthdate"])) # on incrémente la somme par l'âge de la personne de cette musique 
+                    music_sum_age[music] += get_age(read(data[key]["birthdate"])) # on incrémente la somme par l'âge de la personne de cette musique
                 else:
                     music_sum_age[music] = get_age(read(data[key]["birthdate"])) # on initialise à l'âge de la personne si la musique n'est pas dans le dictionnaire
-                
 
 
-average_age_by_music = {key: music_sum_age[key] / listeners_by_music[key] for key in listeners_by_music.keys() # Moyenne d'âge par musique
+
+average_age_by_music = {key: music_sum_age[key] / listeners_by_music[key] for key in listeners_by_music.keys()} # Moyenne d'âge par musique
 
 def print_average_age_by_music():
     for key in average_age_by_music.keys():
